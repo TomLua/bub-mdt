@@ -13,14 +13,14 @@ utils.registerCallback('mdt:openMdt', function()
     local officerData = officers.get(source)
 
     if not officerData then return end
-    
+
     local isAuthorised = officerData and true or false
     local callSign = officerData.callsign
-    
+
     return isAuthorised, callSign
 end)
 
-utils.registerCallback('mdt:openDispatch', function()  
+utils.registerCallback('mdt:openDispatch', function()
     return officers.get(source) and true or false
 end)
 
@@ -179,7 +179,8 @@ utils.registerCallback('mdt:getRecommendedWarrantExpiry', function(source, charg
     for i = 1, #charges do
         local charge = charges[i]
         if charge.time ~= 0 then
-            addonTime = addonTime + (charge.time * 60 * 60000 * charge.count)  -- 1 month of penalty time = 1 hour of warrant time
+            addonTime = addonTime +
+                (charge.time * 60 * 60000 * charge.count) -- 1 month of penalty time = 1 hour of warrant time
         end
     end
 
@@ -264,7 +265,8 @@ end)
 
 local function isVehicleBOLO(plate)
     return db.isVehicleBOLO(plate)
-end exports('isVehicleBOLO', isVehicleBOLO)
+end
+exports('isVehicleBOLO', isVehicleBOLO)
 
 utils.registerCallback('mdt:isVehicleBOLO', function(source, data)
     return isVehicleBOLO(data.plate)
@@ -304,7 +306,8 @@ end)
 
 local function updateProfileImage(citizenId, image)
     return db.updateProfileImage(citizenId, image)
-end exports('updateProfileImage', updateProfileImage)
+end
+exports('updateProfileImage', updateProfileImage)
 
 utils.registerCallback('mdt:updateProfileImage', function(source, data)
     return db.updateProfileImage(data.citizenId, data.image)
