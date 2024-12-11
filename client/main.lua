@@ -42,8 +42,8 @@ local function closeMdt(hideUi)
 
     if tablet then
         if DoesEntityExist(tablet) then
-        Wait(300)
-        DeleteEntity(tablet)
+            Wait(300)
+            DeleteEntity(tablet)
         end
 
         tablet = nil
@@ -69,7 +69,8 @@ local function openMdt()
 
         local coords = GetEntityCoords(cache.ped)
         tablet = CreateObject(model, coords.x, coords.y, coords.z, true, true, true)
-        AttachEntityToEntity(tablet, cache.ped, GetPedBoneIndex(cache.ped, 28422), 0.0, 0.0, 0.03, 0.0, 0.0, 0.0, true, true, false, true, 0, true)
+        AttachEntityToEntity(tablet, cache.ped, GetPedBoneIndex(cache.ped, 28422), 0.0, 0.0, 0.03, 0.0, 0.0, 0.0, true,
+            true, false, true, 0, true)
     end
 
     if not hasLoadedUi then
@@ -81,7 +82,7 @@ local function openMdt()
                 }
             }
         })
-        
+
         local profileCards = lib.callback.await('mdt:getCustomProfileCards')
         local charges = lib.callback.await('mdt:getAllCharges')
 
@@ -91,7 +92,7 @@ local function openMdt()
         SendNUIMessage({
             action = 'setInitData',
             data = {
-                locale = GetConvar('ox:locale', 'en'),
+                locale = GetConvar('ox:locale', 'fr'),
                 locales = lib.getLocales(),
                 profileCards = profileCards,
                 charges = charges
@@ -123,7 +124,7 @@ if config.isDispatchEnabled then
         if isMdtOpen then return end
 
         local isAuthorised = lib.callback.await('mdt:openDispatch', 500)
-        
+
         if not isAuthorised then return end
 
         isMiniDispatchOpen = true
@@ -132,7 +133,7 @@ if config.isDispatchEnabled then
         SendNUIMessage({
             action = 'showMiniDispatch',
             data = {
-            currentRespondKey = respondKey:getCurrentKey()
+                currentRespondKey = respondKey:getCurrentKey()
             }
         })
     end
@@ -150,7 +151,7 @@ if config.isDispatchEnabled then
         SendNUIMessage({
             action = 'respondToCall',
             data = {
-            currentRespondKey = respondKey:getCurrentKey()
+                currentRespondKey = respondKey:getCurrentKey()
             }
         })
     end
@@ -226,13 +227,13 @@ RegisterNetEvent('mdt:updateOfficerPositions', function(data)
 
         if officer.citizenid ~= player.citizenid then
             local blip = officerBlips[officer.citizenid]
-    
+
             if not blip then
                 local name = ('police:%s'):format(officer.citizenid)
-                
+
                 blip = AddBlipForCoord(officer.position[2], officer.position[1], officer.position[3])
                 officerBlips[officer.citizenid] = blip
-    
+
                 SetBlipSprite(blip, 1)
                 SetBlipDisplay(blip, 3)
                 SetBlipColour(blip, 42)
@@ -283,7 +284,8 @@ end)
 
 RegisterNetEvent('mdt:updateCalls', function(data)
     for i = 1, #data.calls do
-        data.calls[i].location = GetStreetNameFromHashKey(GetStreetNameAtCoord(data.calls[i].coords[2], data.calls[i].coords[1], 0))
+        data.calls[i].location = GetStreetNameFromHashKey(GetStreetNameAtCoord(data.calls[i].coords[2],
+            data.calls[i].coords[1], 0))
     end
 
     SendNUIMessage({
@@ -331,7 +333,7 @@ RegisterNuiCallback('setWaypoint', function(data, cb)
 end)
 
 RegisterNUICallback('exit', function(_, cb)
-	cb(1)
+    cb(1)
     SetNuiFocus(false, false)
     closeMdt(true)
 end)
@@ -405,7 +407,7 @@ serverNuiCallback('addReportCitizen')
 serverNuiCallback('getAllVehicles', function(data, cb)
     local vehicles = {}
     for i = 1, #data do
-        vehicles[#vehicles+1] = {
+        vehicles[#vehicles + 1] = {
             plate = data[i].plate,
             model = VEHICLES[data[i].vehicle].model,
         }
